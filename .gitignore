@@ -1,2 +1,3 @@
 dyor-env/*
 models/*
+.env
