@@ -1,3 +1,5 @@
 dyor-env/*
 models/*
 .env
+.venv
+__pycache__/
