@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
-from functions import manage_calendar
-from slackinterface import send_message
+from functions import generate_chat_response
+from slackinterface import send_message, send_personal_message
 app = Flask(__name__)
 
 @app.route('/ping', methods=['GET'])
@@ -11,10 +11,16 @@ def ping():
 def run():
     request_data = request.get_json()
     input_text = request_data['input_text']
-    output_text = manage_calendar(input_text)
+    response = generate_chat_response(input_text)
+    if response:
+        output_text = response
+    else:
+        output_text = "Sorry I didn't get that. I guess I'm too awesome to understand you ;)"
     data = {
         "output_text" : output_text,
     }
+    # Replace my user ID with dynamically retrieved user ID
+    send_personal_message("U046FAGTWGG", output_text)
     return jsonify(data)
 
 if __name__=='__main__':
