@@ -3,7 +3,7 @@ import os
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
-slack_token = os.environ.get("SLACK_API_TOKEN")  # Set your bot token as an environment variable
+slack_token = os.environ.get("SLACK_BOT_TOKEN")  # Set your bot token as an environment variable
 client = WebClient(token=slack_token)
 
 # Send a message to a Slack channel
@@ -19,7 +19,7 @@ def send_message(channel_id, message):
     
 
 def send_personal_message(user_id, message):
-    slack_token = os.environ.get("SLACK_API_TOKEN")  # Set your bot token as an environment variable
+    slack_token = os.environ.get("SLACK_BOT_TOKEN")  # Set your bot token as an environment variable
     client = WebClient(token=slack_token)
 
     try:
