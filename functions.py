@@ -1,4 +1,6 @@
 import requests
+import os
+
 def manage_calendar(input_text):
     return input_text
 
@@ -6,9 +8,10 @@ def generate_chat_response(input_prompt):
     system_prompt = "You are Donna Paulsen from Suits. Answer like her"
     url = "https://api.openai.com/v1/chat/completions"
     # do change the api key too
+    openai_token = os.environ.get("OPENAI_KEY")  # Set your bot token as an environment variable
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer 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"  # Replace with your ChatGPT API key
+        "Authorization": f"Bearer {openai_token}"  # Replace with your ChatGPT API key
     }
     data = {
         "messages": [
