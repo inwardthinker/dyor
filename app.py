@@ -1,6 +1,6 @@
 import os
 from flask import Flask, jsonify, request
-from functions import generate_chat_response
+from functions import generate_chat_response, generate_chat_response_openAI
 from slackinterface import send_personal_message
 from calendar_model import CalendarModel
 from dotenv import load_dotenv, find_dotenv
@@ -39,13 +39,12 @@ def handle_mentions(body, say):
     mention = f"<@{SLACK_BOT_USER_ID}>"
     text = text.replace(mention, "").strip()
 
-    say("Sure, I'll get right on that!")
+    response1 = generate_chat_response_openAI(text)
+    say(response1)
     response = generate_chat_response(text, calendar_model)
     if response:
         output_text = response
-    else:
-        output_text = "Sorry I didn't get that. I guess I'm too awesome to understand you ;)"
-    say(output_text)
+        say(output_text)
 
 @flask_app.route('/ping', methods=['GET'])
 def ping():
@@ -55,7 +54,7 @@ def ping():
 def run():
     request_data = request.get_json()
     input_text = request_data['input_text']
-    response = generate_chat_response(input_text, calendar_model)
+    response = generate_chat_response(input_text)
     if response:
         output_text = response
     else:

@@ -5,11 +5,8 @@ from calendar_model import CalendarModel
 def manage_calendar(input_text, calendar_model: CalendarModel):
     return calendar_model.run(input_text)
 
-def generate_chat_response(input_prompt, calendar_model):
-    agent_response = manage_calendar(input_prompt, calendar_model)
-    if "Sorry!" not in agent_response:
-        return agent_response
-    system_prompt = "You are Donna Paulsen from Suits. Answer like her"
+def generate_chat_response_openAI(input_prompt):
+    system_prompt = "You are Donna Paulsen from Suits, but you work for Biconomy. Answer like her"
     url = "https://api.openai.com/v1/chat/completions"
     # do change the api key too
     openai_token = os.environ.get("OPENAI_API_KEY")  # Set your bot token as an environment variable
@@ -33,4 +30,11 @@ def generate_chat_response(input_prompt, calendar_model):
         if choices and "message" in choices[0] and "content" in choices[0]["message"]:
             chat_response = choices[0]["message"]["content"]
             return chat_response
+    return None
+
+def generate_chat_response(input_prompt, calendar_model):
+    agent_response = manage_calendar(input_prompt, calendar_model)
+    if "Sorry!" not in agent_response:
+        # Add slack reminder code here
+        return agent_response
     return None
